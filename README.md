@@ -27,7 +27,7 @@ For a quick impression of gollum, see [this video](https://www.youtube.com/watch
 
 ## SYSTEM REQUIREMENTS
 
-| Operating System | Ruby           | Adapters           | Supported | 
+| Operating System | Ruby           | Adapters           | Supported |
 | ---------------- | -------------- | ------------------ | --------- |
 | Unix/Linux-like  | Ruby 1.9.3+    | all except [RJGit](https://github.com/repotag/rjgit) | yes |
 | Unix/Linux-like  | [JRuby](https://github.com/jruby/jruby) (1.9.3+ compatible) | [RJGit](https://github.com/repotag/rjgit) | yes |
@@ -81,7 +81,6 @@ Gollum presently ships with support for the following markups:
 Since all markups are rendered by the [github-markup](https://github.com/github/markup) gem, you can easily add support for other markups by additional installation:
 * [AsciiDoc](http://asciidoctor.org/docs/asciidoc-syntax-quick-reference/) -- `[sudo] gem install asciidoctor`
 * [Creole](http://www.wikicreole.org/wiki/CheatSheet) -- `[sudo] gem install creole`
-* [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown) -- `[sudo] gem install github-markdown`
 * [MediaWiki](http://www.mediawiki.org/wiki/Help:Formatting) -- `[sudo] gem install wikicloth`
 * [Org](http://orgmode.org/worg/dev/org-syntax.html) -- `[sudo] gem install org-ruby`
 * [Pod](http://perldoc.perl.org/perlpod.html) -- requires Perl >= 5.10 (the `perl` command must be available on your command line)
@@ -143,6 +142,7 @@ Gollum comes with the following command line options:
 | --page-file-dir   | [PATH]    | Specify the subdirectory for all pages. If set, Gollum will only serve pages from this directory and its subdirectories. Default: repository root. |
 | --css             | none      | Tell Gollum to inject custom CSS into each page. Uses `custom.css` from repository root.<sup>3,5</sup> |
 | --js              | none      | Tell Gollum to inject custom JS into each page. Uses `custom.js` from repository root.<sup>3,5</sup> |
+| --emoji           | none      | Parse and interpret emoji tags (e.g. :heart:). |
 | --no-edit         | none      | Disable the feature of editing pages. |
 | --live-preview    | none      | Enable the live preview feature in page editor. |
 | --no-live-preview | none      | Disable the live preview feature in page editor. |
@@ -171,70 +171,3 @@ Gollum comes with the following command line options:
 When `--config` option is used, certain inner parts of Gollum can be customized. This is used throughout our wiki for certain user-level alterations, among which [customizing supported markups](https://github.com/gollum/gollum/wiki/Formats-and-extensions) will probably stand out.
 
 **All of the mentioned alterations work both for Gollum's config file (`config.rb`) and Rack's config file (`config.ru`).**
-
-## HOW TO CONTRIBUTE
-
-1. Fork and clone Gollum.
-2. Create a thoughtfully named topic branch to contain your changes.
-3. If you haven't installed dependencies yet, navigate to your clone and execute:  
-	```
-	[sudo] bundle install
-	```
-4. Hack away.
-5. Add your own tests and make sure they're all still passing.
-6. If some of your changes deserve a mention on Gollum's home page, edit the README accordingly.
-7. If necessary, rebase your commits into logical chunks, without errors.
-8. Push the branch to your fork on GitHub.
-9. Create a pull request for Gollum.
-
-**Notes:**
-* Do not change Gollum's version numbers, we will do that on our own.
-
-### Running tests
-
-1. Install [Bundler](http://bundler.io/).
-2. Navigate to the cloned source of Gollum.
-3. Install dependencies:  
-	```
-	[sudo] bundle install
-	```
-4. Run the tests:  
-	```
-	bundle exec rake test
-	```
-
-### Working with test repositories
-
-An example of how to add a test file to the bare repository lotr.git.
-
-```
-mkdir tmp
-cd tmp
-git clone ../lotr.git/
-git log
-echo "test" > test.md
-git add .
-git commit -am "Add test"
-git push ../lotr.git/ master
-```
-
-## RELEASING
-
-Gollum uses [Semantic Versioning](http://semver.org/).
-
-    x.y.z
-
-For z releases:
-
-```
-rake bump
-rake release
-```
-
-For x.y releases:
-
-```
-# First update VERSION in lib/gollum.rb and then:
-rake gemspec
-rake release
-```
