@@ -348,7 +348,7 @@ module Precious
         wiki.write_page(name, format, params[:content], commit_message, path)
 
         page_dir = settings.wiki_options[:page_file_dir].to_s
-        redirect to("/#{clean_url(::File.join(page_dir, path, encodeURIComponent(name)))}")
+        redirect to("/#{clean_url(::File.join(encodeURIComponent(page_dir), encodeURIComponent(path), encodeURIComponent(name)))}")
       rescue Gollum::DuplicatePageError => e
         @message = "Duplicate page: #{e.message}"
         mustache :error
@@ -464,6 +464,7 @@ module Precious
         @name    = name
         @content = page.formatted_data
         @version = version
+        @bar_side = wikip.wiki.bar_side
         mustache :page
       elsif file = wikip.wiki.file("#{file_path}", version, true)
         show_file(file)
